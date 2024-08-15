@@ -31,7 +31,7 @@
     let processing = false;
 
     checkIFNFCSupported();
-    
+
     function checkIFNFCSupported(){
       if (!("NDEFReader" in window)) {
         alert("NFC is not supported.");
@@ -99,14 +99,15 @@
       }
 
       alert("Put the device close to the tag to write");
-      const ndef = new NDEFReader();
-      ndef.write({ records: [{ recordType: "text", data: message }] })
-        .then(() => {
-          alert("Message written successfully.");
-        })
-        .catch(error => {
-          alert(`Write failed :-( try again: ${error}.`);
-        });
+
+      ndef = new NDEFReader();
+      ndef.scan().then(() => {
+        return ndef.write({ records: [...NFCResults.map(record => record.toJSON()), { recordType: "text", data: message }] });
+      }).then(() => {
+        alert("Message written successfully.");
+      }).catch(error => {
+        alert(`Write failed :-( try again: ${error}.`);
+      });
     }
   </script>
 </body>
