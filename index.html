@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NFC and Barcode Scanner</title>
+    <title>NFC Scanner</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
   <div class="app">
-    <h2>NFC and Barcode Scanner</h2>
-    <div>
-      <label>Status:</label>
-      <span id="status"></span>
-    </div>
-    <div>
+    <h1 class="child">NFC Scanner by AlttusTI</h1>
+    <div id="controls" class="child">
       <button id="NFC-btn" onclick="toggleNFCScanning();">Scan NFC Tags</button>
       <button id="write-btn" onclick="writeNFCTag();">Write to NFC Tag</button>
     </div>
-    <div>
+    <div id="message-input-container" class="child">
       <input type="text" id="message-input" placeholder="Enter message to write" />
     </div>
-    <div>
+    <div id="NFC-results-container" class="child">
       NFC Results:
       <ol id="NFC-results"></ol>
     </div>
