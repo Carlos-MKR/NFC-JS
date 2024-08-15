@@ -1,26 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NFC and Barcode Scanner</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .app {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+        h2 {
+            margin: 0 0 20px;
+            font-size: 24px;
+            color: #007bff;
+        }
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            display: inline-block;
+            text-align: center;
+        }
+        .button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .input-group {
+            margin: 20px 0;
+        }
+        .input-group input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #e7f0ff;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+        }
+        .animation {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .animation img {
+            width: 100px;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .results ol {
+            list-style-type: none;
+            padding: 0;
+        }
+        .results li {
+            background: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
   <div class="app">
     <h2>NFC and Barcode Scanner</h2>
-    <div>
+    <div class="status">
       <label>Status:</label>
       <span id="status"></span>
     </div>
     <div>
-      <button id="NFC-btn" onclick="toggleNFCScanning();">Scan NFC Tags</button>
-      <button id="write-btn" onclick="writeNFCTag();">Write to NFC Tag</button>
+      <button id="NFC-btn" class="button" onclick="toggleNFCScanning();">Scan NFC Tags</button>
+      <button id="write-btn" class="button" onclick="writeNFCTag();">Write to NFC Tag</button>
     </div>
-    <div>
+    <div class="input-group">
       <input type="text" id="message-input" placeholder="Enter message to write" />
     </div>
-    <div>
+    <div class="results">
       NFC Results:
       <ol id="NFC-results"></ol>
+    </div>
+    <div id="animation" class="animation">
+      <p>Place your phone close to the tag to write</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Animated_NFC_tag.svg" alt="NFC Animation">
     </div>
   </div>
 
@@ -28,10 +115,9 @@
     let ndef;
     let abortController;
     let NFCResults = [];
-    let processing = false;
 
     checkIFNFCSupported();
-    
+
     function checkIFNFCSupported(){
       if (!("NDEFReader" in window)) {
         alert("NFC is not supported.");
@@ -98,13 +184,15 @@
         return;
       }
 
-      alert("Put the device close to the tag to write");
+      document.getElementById("animation").style.display = 'block';
       const ndef = new NDEFReader();
       ndef.write({ records: [{ recordType: "text", data: message }] })
         .then(() => {
+          document.getElementById("animation").style.display = 'none';
           alert("Message written successfully.");
         })
         .catch(error => {
+          document.getElementById("animation").style.display = 'none';
           alert(`Write failed :-( try again: ${error}.`);
         });
     }
