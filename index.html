@@ -85,6 +85,15 @@
             border-radius: 5px;
             margin-bottom: 10px;
         }
+        /* Estilo para hacer la imagen más grande y responsiva */
+        .responsive-img {
+          max-width: 100%;  /* La imagen no será más grande que el contenedor */
+          height: auto;     /* Mantiene la relación de aspecto */
+          width: 150px;     /* Establece un ancho fijo mayor que 64px */
+          display: block;   /* Evita el espacio blanco debajo de la imagen */
+          margin: 0 auto;   /* Centra la imagen horizontalmente en el contenedor */
+        }
+
     </style>
 </head>
 <body>
@@ -107,7 +116,8 @@
     </div>
     <div id="animation" class="animation">
       <p>Place your phone close to the tag to write</p>
-      <img src="img/nfc-animation.gif" alt="NFC Animation">
+      <img src="img/nfc-animation.gif" alt="NFC Animation" class="responsive-img">
+
     </div>
   </div>
 
